@@ -86,7 +86,7 @@ module.exports = function (ctx) {
           loader: 'eslint-loader',
           exclude: /node_modules/,
           options: {
-            formatter: require('eslint').CLIEngine.getFormatter('stylish')
+            formatter: require('eslint').CLIEngine.getFormatter('stylish'),
           },
         });
       },
@@ -96,6 +96,15 @@ module.exports = function (ctx) {
       // https: true,
       // port: 8080,
       open: true, // opens browser window automatically
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3080/netwerk/refer',
+          changeOrigin: true,
+          // pathRewrite: {
+          //   '^/api': '',
+          // },
+        },
+      },
     },
 
     // animations: 'all', // --- includes all animations
