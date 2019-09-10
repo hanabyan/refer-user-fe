@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+/* eslint-disable global-require */
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
@@ -6,27 +8,28 @@ module.exports = function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
-      'axios'
+      'axios',
     ],
 
     css: [
-      'app.styl'
+      'app.styl',
     ],
 
     extras: [
       // 'ionicons-v4',
       // 'mdi-v3',
-      // 'fontawesome-v5',
+      'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
     ],
 
     framework: {
       // iconSet: 'ionicons-v4',
+      iconSet: 'fontawesome-v5',
       // lang: 'de', // Quasar language
 
       // all: true, // --- includes everything; for dev only!
@@ -44,17 +47,27 @@ module.exports = function (ctx) {
         'QList',
         'QItem',
         'QItemSection',
-        'QItemLabel'
+        'QItemLabel',
+        'QBanner',
+        'QBtnDropdown',
+        'QInput',
+        'QSelect',
+        'QFooter',
+        'QTable',
+        'QCard',
+        'QCardSection',
+        'QSeparator',
       ],
 
       directives: [
-        'Ripple'
+        'Ripple',
+        'ClosePopup',
       ],
 
       // Quasar plugins
       plugins: [
-        'Notify'
-      ]
+        'Notify',
+      ],
     },
 
     supportIE: false,
@@ -66,7 +79,7 @@ module.exports = function (ctx) {
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
-      extendWebpack (cfg) {
+      extendWebpack(cfg) {
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -74,22 +87,22 @@ module.exports = function (ctx) {
           exclude: /node_modules/,
           options: {
             formatter: require('eslint').CLIEngine.getFormatter('stylish')
-          }
-        })
-      }
+          },
+        });
+      },
     },
 
     devServer: {
       // https: true,
       // port: 8080,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
     animations: [],
 
     ssr: {
-      pwa: false
+      pwa: false,
     },
 
     pwa: {
