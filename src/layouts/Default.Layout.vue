@@ -18,7 +18,7 @@
 
         <q-btn-dropdown
           color="red"
-          label="Dropdown Button"
+          :label="profile && profile.name"
           stretch
           unelevated
           no-caps
@@ -27,7 +27,14 @@
           <q-list>
             <q-item clickable v-close-popup>
               <q-item-section>
-                <q-item-label>Photos</q-item-label>
+                <q-item-label>
+                  <q-btn
+                    label="Logout"
+                    @click="logout"
+                    flat
+                    class="full-width"
+                  />
+                </q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -56,6 +63,20 @@
 
         <q-list class="drawer-menu-container">
           <!-- TODO: set summary penghasilan disini -->
+          <div
+            class="row justify-center widget-summary"
+          >
+            <div class="col-12">
+              <q-item-label>Saldo Anda</q-item-label>
+            </div>
+            <q-item-section avatar>
+              <q-icon name="fas fa-credit-card" />
+            </q-item-section>
+            <q-item-section>
+              <span class="text-h6">Rp 559,000</span>
+            </q-item-section>
+          </div>
+
           <q-item
             v-for="nav in navs"
             :key="nav.label"
@@ -64,7 +85,7 @@
             :clickable="!!nav.pathTo"
           >
             <q-item-section avatar>
-              <q-icon :name="nav.icon" />
+              <q-icon :name="nav.icon" size="14px" color="blue-grey-9"/>
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ nav.label }}</q-item-label>
@@ -90,6 +111,7 @@
 
 <script>
 import { openURL } from 'quasar';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'DefaultLayout',
@@ -99,34 +121,40 @@ export default {
       navs: [
         {
           label: 'Beranda',
-          icon: 'dashboard',
+          icon: 'fa fa-tachometer-alt',
           pathTo: '/',
         },
         {
           label: 'Produk',
-          icon: 'business',
+          icon: 'fa fa-th-list',
           pathTo: '/product',
         },
         {
           label: 'Penghasilan',
-          icon: 'list_alt',
+          icon: 'fa fa-money-bill',
           pathTo: '/income',
         },
         {
           label: 'My Reward',
-          icon: 'category',
+          icon: 'fa fa-tags',
           pathTo: '/reward',
         },
-        {
-          label: 'Voucher',
-          icon: 'category',
-          pathTo: '/voucher',
-        },
+        // {
+        //   label: 'Voucher',
+        //   icon: 'category',
+        //   pathTo: '/voucher',
+        // },
       ],
     };
   },
   methods: {
     openURL,
+    ...mapActions('authentication', ['logout']),
+  },
+  computed: {
+    profile() {
+      return this.$store.state.authentication.user;
+    },
   },
 };
 </script>
@@ -145,5 +173,13 @@ export default {
   }
   .main-page-container {
     background-color: #ecf0f5;
+  }
+  .widget-summary {
+    background-color: #0100CA;
+    color: #fff;
+    height: 77px;
+    padding: 8px 16px;
+    border-top: 1px solid #fff;
+    margin-bottom: 20px;
   }
 </style>

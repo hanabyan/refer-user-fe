@@ -9,6 +9,7 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     boot: [
       'axios',
+      'vuelidate',
     ],
 
     css: [
@@ -57,6 +58,8 @@ module.exports = function (ctx) {
         'QCard',
         'QCardSection',
         'QSeparator',
+        'QForm',
+        'QUploader',
       ],
 
       directives: [
@@ -74,7 +77,7 @@ module.exports = function (ctx) {
 
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
+      vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
@@ -97,7 +100,7 @@ module.exports = function (ctx) {
       // port: 8080,
       open: true, // opens browser window automatically
       proxy: {
-        '/api': {
+        '/user': {
           target: 'http://localhost:3080/netwerk/refer',
           changeOrigin: true,
           // pathRewrite: {

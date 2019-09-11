@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default async ({ Vue }) => {
-  axios.defaults.baseURL = '/api';
+  axios.defaults.baseURL = '/user';
 
   axios.interceptors.request.use((config) => {
     // TODO: need to recheck again, against refresh token etc

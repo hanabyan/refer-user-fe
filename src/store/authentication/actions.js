@@ -1,9 +1,9 @@
 import { userService } from '../../_services';
 
-export function login({ dispatch, commit }, { email, password }) {
-  commit('loginRequest', { email });
+export function login({ dispatch, commit }, { phone, password }) {
+  commit('loginRequest', { phone });
 
-  userService.login(email, password)
+  userService.login(phone, password)
     .then(
       (user) => {
         commit('loginSuccess', user);
@@ -20,5 +20,5 @@ export function login({ dispatch, commit }, { email, password }) {
 export function logout({ commit }) {
   userService.logout();
   commit('loginPurge');
-  this.$router.push('/login');
+  this.$router.push('/sign/in');
 }

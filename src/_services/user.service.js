@@ -4,10 +4,10 @@ function logout() {
   localStorage.removeItem('user');
 }
 
-function login(mobile, password) {
+function login(phone, password) {
   return axios('/auth/login', {
     method: 'post',
-    data: { mobile, password },
+    data: { phone, password },
   })
     .then((response) => {
       if (response && response.data && response.data.token) {
@@ -22,7 +22,17 @@ function login(mobile, password) {
     });
 }
 
+function register(payload) {
+  return axios('/register', {
+    method: 'post',
+    data: payload,
+  })
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
+}
+
 export const userService = {
   login,
   logout,
+  register,
 };

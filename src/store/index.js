@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import alert from './alert';
 import authentication from './authentication';
+import navigation from './navigation';
 
 Vue.use(Vuex);
 
@@ -13,7 +15,9 @@ Vue.use(Vuex);
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
+      alert,
       authentication,
+      navigation,
     },
 
     // enable strict mode (adds overhead!)

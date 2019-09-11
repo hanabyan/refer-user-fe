@@ -19,7 +19,10 @@
                 <q-card-section>
                   <p class="r-card-title">{{ props.row.product_name }}</p>
                   <p class="r-card-est-title">Estimated price:</p>
-                  <p class="r-card-est-value">Rp. {{ props.row.estimated_price }}</p>
+                  <p class="r-card-est-value">
+                    {{ convertToCurrency(props.row.estimated_price) }}
+                  </p>
+                  <p><i>Komisi</i>: {{ convertToCurrency(props.row.referral_commission) }}</p>
                 </q-card-section>
 
                 <q-separator />
@@ -27,11 +30,10 @@
                 <q-card-section>
                   <p style="margin-bottom: 7px;">Bagikan dan dapatkan komisi!</p>
                   <social-sharing
-                    url="https://www.google.com"
-                    title="Ini Judul"
-                    description="Ini deskripsi"
-                    hashtags="refer,rokok,jarum"
-                    twitter-user="budaiOnlyOne"
+                    :url="props.row.share_url"
+                    :title="props.row.promo_name"
+                    :description="props.row.promo_description"
+                    hashtags="refer"
                     inline-template
                   >
                     <div class="socmed-inline-container">
@@ -61,6 +63,9 @@
 import Vue from 'vue';
 import SocialSharing from 'vue-social-sharing';
 
+import { promoService } from '../../_services';
+import numberHelper from '../../_helper/number.helper';
+
 Vue.use(SocialSharing);
 
 export default {
@@ -68,80 +73,16 @@ export default {
   components: {
     SocialSharing,
   },
+  beforeMount() {
+    promoService.getProduct().then((res) => {
+      this.promos = res;
+    }, (rej) => {
+      console.log(rej);
+    });
+  },
   data() {
     return {
-      promos: [
-        {
-          product_id: '4',
-          product_name: 'Chocolatos Dark 10gr',
-          product_description: 'Chocolatos dengan coklat asli Lumajang.',
-          estimated_price: '5000',
-          image: 'asdasd',
-          total_item: '10',
-          total_item_left: 9,
-          promo_id: '1',
-          promo_name: 'Beli 1 Gratis Pulsa 5rb',
-          promo_type: '0',
-          promo_value: '5000',
-          promo_description: 'Beli product Garuda Food dan simpan struk belanja lalu tukarkan dengan Pulsa 5rb.\r\nPulsa dikirim maximal 2x24 jam\r\nCS:021-56342039',
-        },
-        {
-          product_id: '3',
-          product_name: 'Gery Snack Sereal 50gr',
-          product_description: 'Gery Snack yang mengisi hari-hari Anda saat patah hati.',
-          estimated_price: '5000',
-          image: 'asdasd',
-          total_item: '1000',
-          total_item_left: '1000',
-          promo_id: '1',
-          promo_name: 'Beli 1 Gratis Pulsa 5rb',
-          promo_type: '0',
-          promo_value: '5000',
-          promo_description: 'Beli product Garuda Food dan simpan struk belanja lalu tukarkan dengan Pulsa 5rb.\r\nPulsa dikirim maximal 2x24 jam\r\nCS:021-56342039',
-        },
-        {
-          product_id: '3',
-          product_name: 'Gery Snack Sereal 50gr',
-          product_description: 'Gery Snack yang mengisi hari-hari Anda saat patah hati.',
-          estimated_price: '5000',
-          image: 'asdasd',
-          total_item: '1000',
-          total_item_left: '1000',
-          promo_id: '1',
-          promo_name: 'Beli 1 Gratis Pulsa 5rb',
-          promo_type: '0',
-          promo_value: '5000',
-          promo_description: 'Beli product Garuda Food dan simpan struk belanja lalu tukarkan dengan Pulsa 5rb.\r\nPulsa dikirim maximal 2x24 jam\r\nCS:021-56342039',
-        },
-        {
-          product_id: '3',
-          product_name: 'Gery Snack Sereal 50gr',
-          product_description: 'Gery Snack yang mengisi hari-hari Anda saat patah hati.',
-          estimated_price: '5000',
-          image: 'asdasd',
-          total_item: '1000',
-          total_item_left: '1000',
-          promo_id: '1',
-          promo_name: 'Beli 1 Gratis Pulsa 5rb',
-          promo_type: '0',
-          promo_value: '5000',
-          promo_description: 'Beli product Garuda Food dan simpan struk belanja lalu tukarkan dengan Pulsa 5rb.\r\nPulsa dikirim maximal 2x24 jam\r\nCS:021-56342039',
-        },
-        {
-          product_id: '3',
-          product_name: 'Gery Snack Sereal 50gr',
-          product_description: 'Gery Snack yang mengisi hari-hari Anda saat patah hati.',
-          estimated_price: '5000',
-          image: 'asdasd',
-          total_item: '1000',
-          total_item_left: '1000',
-          promo_id: '1',
-          promo_name: 'Beli 1 Gratis Pulsa 5rb',
-          promo_type: '0',
-          promo_value: '5000',
-          promo_description: 'Beli product Garuda Food dan simpan struk belanja lalu tukarkan dengan Pulsa 5rb.\r\nPulsa dikirim maximal 2x24 jam\r\nCS:021-56342039',
-        },
-      ],
+      promos: [],
       columns: [
         {
           name: 'name',
@@ -166,6 +107,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    convertToCurrency(value) {
+      return numberHelper.getCurrency({ value, thousandSeparator: '.' });
+    },
   },
 };
 </script>
