@@ -13,7 +13,7 @@
             >
               <q-card class="my-card" square>
                 <div style="padding-top: 6px; padding-bottom: 1px; background-color: #9b9b9b;">
-                  <img src="~/assets/img/djarum.super.png" style="max-width: 100%;">
+                  <img :src="props.row.image" style="max-width: 100%;">
                 </div>
 
                 <q-card-section>

@@ -5,7 +5,7 @@
   >
     <q-card class="my-card" square style="max-width: 250px;">
       <div style="padding-top: 6px; padding-bottom: 1px; background-color: #9b9b9b;">
-        <img src="~/assets/img/djarum.super.png" style="max-width: 100%;">
+        <img :src="payload.image" style="max-width: 100%;">
       </div>
 
       <q-card-section>
@@ -47,9 +47,13 @@ export default {
     const decoded = window.atob(unescape(this.$route.params.code));
 
     promoService.getLanding(decoded).then((res) => {
-      const { name, description, promo_value: promoValue } = res.promo;
+      const {
+        name, description, promo_value: promoValue, image,
+      } = res.promo;
 
-      this.payload = { name, description, promoValue };
+      this.payload = {
+        name, description, promoValue, image,
+      };
     }, (rej) => {
       console.log(rej);
     });
@@ -60,6 +64,7 @@ export default {
         name: '',
         description: '',
         promoValue: 0,
+        image: '',
       },
       intendToClaim: false,
     };
