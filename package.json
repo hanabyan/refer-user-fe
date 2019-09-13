@@ -2,7 +2,7 @@
   "name": "refer-user-fe",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "refer-user-fe",
+  "productName": "Refer",
   "cordovaId": "org.cordova.quasar.app",
   "author": "Budi Setiawan <bud1.setia1@gmail.com>",
   "private": true,

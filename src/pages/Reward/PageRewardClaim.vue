@@ -74,8 +74,10 @@ export default {
 
     promoService.getLanding(decoded).then((res) => {
       const {
-        name, description, promo_value: promoValue, image,
+        name, description, promo_value: promoValue,
       } = res.promo;
+
+      const { image } = res.product;
 
       this.payload = {
         name, description, promoValue, image,
