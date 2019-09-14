@@ -1,7 +1,7 @@
 {
   "name": "refer-user-fe",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
+  "description": "Aplikasi yang mempermudah kamu untuk menghasilkan uang hanya dengan share link produk kepada orang terdekatmu!",
   "productName": "Refer",
   "cordovaId": "org.cordova.quasar.app",
   "author": "Budi Setiawan <bud1.setia1@gmail.com>",
