@@ -9,7 +9,7 @@ export default {
   // name: 'PageName',
   mounted() {
     if (this.paramCode) {
-      this.$router.push(`/reward/claim/${this.paramCode}`);
+      this.$router.push(`/reward/claim?code=${this.paramCode}`);
     }
   },
   computed: {

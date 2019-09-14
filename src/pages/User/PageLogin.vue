@@ -54,7 +54,7 @@
           <div class="col-6">
             Belum memiliki akun?
             <router-link
-              :to="`/sign/up${$route.params.code ? `/${$route.params.code}` : ''}`"
+              :to="`/sign/up${$route.query.code ? `?code=${$route.query.code}` : ''}`"
             >Daftar sekarang</router-link>
           </div>
           <div class="col-6 text-right q-mt-xs">
@@ -106,8 +106,8 @@ export default {
 
       const { phone, password } = this;
       if (phone && password) {
-        if (this.$route.params.code) {
-          this.setParamCode(this.$route.params.code);
+        if (this.$route.query.code) {
+          this.setParamCode(this.$route.query.code);
         }
 
         try {

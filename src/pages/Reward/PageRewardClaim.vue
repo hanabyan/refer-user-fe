@@ -69,7 +69,7 @@ const BASE_URL = '/user';
 export default {
   // name: 'PageName',
   beforeMount() {
-    const decoded = window.atob(unescape(this.$route.params.code));
+    const decoded = window.atob(unescape(this.$route.query.code));
     this.promoCode = decoded;
 
     promoService.getLanding(decoded).then((res) => {

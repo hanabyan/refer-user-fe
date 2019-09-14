@@ -34,8 +34,9 @@ export default function (/* { store, ssrContext } */) {
 
     if (publicUnpublic.some(url => to.path.startsWith(url))) {
       const { params: { code } } = to;
+
       if (loggedIn && tokenHelper.validate()) {
-        return next(`/reward/claim/${code}`);
+        return next(`/reward/claim?code=${code}`);
       }
 
       return next();
