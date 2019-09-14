@@ -26,7 +26,6 @@
                 {{props.row.amount}}
               </span>
             </q-td>
-            {{$log(props)}}
           </template>
         </q-table>
       </div>
@@ -45,20 +44,37 @@
           </q-item>
 
           <div class="text-right">
-            <q-btn class="refer-input" label="Tarik Dana" style="background-color: #0100CA;" />
+            <q-btn
+              class="refer-input"
+              label="Tarik Dana"
+              style="background-color: #0100CA;"
+              @click="toggleModal"
+            />
           </div>
         </q-card>
       </div>
     </div>
 
+    <FormModal
+      v-if="isOpenModal"
+      :isOpen="isOpenModal"
+      @toggle="toggleModal"
+    />
+
   </q-page>
 </template>
 
 <script>
+import FormModal from './FormModal';
+
 export default {
   // name: 'PageName',
+  components: {
+    FormModal,
+  },
   data() {
     return {
+      isOpenModal: false,
       incomes: [
         {
           date: '07 Sep 2019',
@@ -97,6 +113,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    toggleModal() {
+      this.isOpenModal = !this.isOpenModal;
+    },
   },
 };
 </script>
