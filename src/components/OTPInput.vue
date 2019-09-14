@@ -1,19 +1,23 @@
 <template>
-  <div class="otp-container">
-    <span v-for="index in numberOfInput" :key="index">
-      <input
-        type="number"
-        v-model="otps[index - 1]"
-        :ref="'otpDigit' + index"
-        @keypress="onKeyPress"
-        @keyup.right="focusInputByRef('otpDigit' + (index + 1))"
-        @keyup.left="focusInputByRef('otpDigit' + (index - 1))"
-        @keyup.delete="focusInputByRef('otpDigit' + (index - 1))"
-        :style="inputStyle"
-        :disabled="isDisabled"
-        @paste="onPaste"
-        @input="onInput($event, 'otpDigit' + (index + 1))"
-      />
+  <div class="otp-container row">
+    <span class="q-mx-sm otp-input-wrapper" v-for="index in numberOfInput" :key="index">
+      <q-field>
+        <input
+          class="q-field__native"
+          type="number"
+          v-model="otps[index - 1]"
+          :ref="'otpDigit' + index"
+          @keypress="onKeyPress"
+          @keyup.right="focusInputByRef('otpDigit' + (index + 1))"
+          @keyup.left="focusInputByRef('otpDigit' + (index - 1))"
+          @keyup.delete="focusInputByRef('otpDigit' + (index - 1))"
+          :style="inputStyle"
+          :disabled="isDisabled"
+          @paste="onPaste"
+          @input="onInput($event, 'otpDigit' + (index + 1))"
+          autofocus
+        />
+      </q-field>
     </span>
   </div>
 </template>
@@ -158,3 +162,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+  -moz-appearance:textfield; /* Firefox */
+}
+
+.otp-container {
+  justify-content: center;
+}
+
+.otp-container .otp-input-wrapper {
+  max-width: 35px;
+}
+</style>
