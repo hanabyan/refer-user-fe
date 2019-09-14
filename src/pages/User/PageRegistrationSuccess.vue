@@ -65,7 +65,7 @@ export default {
     console.log(process.env);
     this.REFER_PORTAL = process.env.REFER_PORTAL;
   },
-  name: 'PageWelcomeMessage',
+  name: 'PageRegistrationSuccess',
   data() {
     return {
       REFER_PORTAL: '',
