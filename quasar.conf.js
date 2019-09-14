@@ -79,6 +79,13 @@ module.exports = function (ctx) {
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
+      publicPath: 'https://refer.co.id/user',
+      env: {
+        APP_BASE: ctx.dev ? JSON.stringify('/') : JSON.stringify('https://refer.co.id/user'),
+        AXIOS_BASE: ctx.dev ? JSON.stringify('/user') : JSON.stringify('/api/user'),
+        API_BASE: ctx.dev ? JSON.stringify('/user') : JSON.stringify('https://refer.co.id/api/user'),
+        REFER_PORTAL: JSON.stringify('https://refer.co.id'),
+      },
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,

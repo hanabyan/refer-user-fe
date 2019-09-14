@@ -64,7 +64,7 @@ import { mapActions } from 'vuex';
 import { promoService } from '../../_services';
 import tokenHelper from '../../_helper/token.helper';
 
-const BASE_URL = '/user';
+const BASE_URL = process.env.API_BASE;
 
 export default {
   // name: 'PageName',
