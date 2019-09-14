@@ -1,65 +1,65 @@
 <template>
   <q-page padding>
-        <q-table
-          :data="promos"
-          :columns="columns"
-          row-key="id"
-          grid
-          class="table-product-card"
+    <q-table
+      :data="promos"
+      :columns="columns"
+      row-key="id"
+      grid
+      class="table-product-card"
+    >
+      <template v-slot:item="props">
+        <div
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-3 grid-style-transition product-card-gutter"
         >
-          <template v-slot:item="props">
-            <div
-              class="q-pa-xs col-xs-12 col-sm-6 col-md-3 grid-style-transition product-card-gutter"
-            >
-              <q-card class="my-card" square>
-                <div style="padding-top: 6px; padding-bottom: 1px; background-color: #9b9b9b;">
-                  <img :src="props.row.image" style="max-width: 100%;">
-                </div>
-
-                <q-card-section>
-                  <p class="r-card-title">{{ props.row.promo_name }}</p>
-                  <p class="r-card-est-title">Estimated price:</p>
-                  <p class="r-card-est-value">
-                    {{ convertToCurrency(props.row.estimated_price) }}
-                  </p>
-                  <!--
-                    <p><i>Komisi</i>: {{ convertToCurrency(props.row.referral_commission) }}</p>
-                  -->
-                </q-card-section>
-
-                <q-separator />
-
-                <q-card-section>
-                  <p style="margin-bottom: 7px;">
-                    Bagikan ke 10 orang dan dapatkan keuntungannya!
-                  </p>
-
-                  <div class="q-mb-md">Share status: <b>7 of 10</b></div>
-
-                  <social-sharing
-                    :url="props.row.share_url"
-                    :title="props.row.promo_name"
-                    :description="props.row.promo_description"
-                    hashtags="refer"
-                    inline-template
-                  >
-                    <div class="socmed-inline-container">
-                      <network network="facebook">
-                        <q-icon name="fab fa-facebook" class="refer-socmed" />
-                      </network>
-                      <network network="whatsapp">
-                        <q-icon name="fab fa-whatsapp" class="refer-socmed" />
-                      </network>
-                      <network network="twitter">
-                        <q-icon name="fab fa-twitter" class="refer-socmed" />
-                      </network>
-                    </div>
-                  </social-sharing>
-                </q-card-section>
-              </q-card>
+          <q-card class="my-card" square>
+            <div style="padding-top: 6px; padding-bottom: 1px; background-color: #9b9b9b;">
+              <img :src="props.row.image" style="max-width: 100%;">
             </div>
-          </template>
-        </q-table>
+
+            <q-card-section>
+              <p class="r-card-title">{{ props.row.promo_name }}</p>
+              <p class="r-card-est-title">Estimated price:</p>
+              <p class="r-card-est-value">
+                {{ convertToCurrency(props.row.estimated_price) }}
+              </p>
+              <!--
+                <p><i>Komisi</i>: {{ convertToCurrency(props.row.referral_commission) }}</p>
+              -->
+            </q-card-section>
+
+            <q-separator />
+
+            <q-card-section>
+              <p style="margin-bottom: 7px;">
+                Bagikan ke 10 orang dan dapatkan keuntungannya!
+              </p>
+
+              <div class="q-mb-md">Share status: <b>7 of 10</b></div>
+
+              <social-sharing
+                :url="props.row.share_url"
+                :title="props.row.promo_name"
+                :description="props.row.promo_description"
+                hashtags="refer"
+                inline-template
+              >
+                <div class="socmed-inline-container">
+                  <network network="facebook">
+                    <q-icon name="fab fa-facebook" class="refer-socmed" />
+                  </network>
+                  <network network="whatsapp">
+                    <q-icon name="fab fa-whatsapp" class="refer-socmed" />
+                  </network>
+                  <network network="twitter">
+                    <q-icon name="fab fa-twitter" class="refer-socmed" />
+                  </network>
+                </div>
+              </social-sharing>
+            </q-card-section>
+          </q-card>
+        </div>
+      </template>
+    </q-table>
   </q-page>
 </template>
 
