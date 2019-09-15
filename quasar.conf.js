@@ -61,6 +61,12 @@ module.exports = function (ctx) {
         'QForm',
         'QUploader',
         'QField',
+        'QTd',
+        'QDialog',
+        'QCardActions',
+        'QAvatar',
+        'QSpace',
+        'QRadio',
       ],
 
       directives: [
@@ -71,6 +77,7 @@ module.exports = function (ctx) {
       // Quasar plugins
       plugins: [
         'Notify',
+        'Dialog',
       ],
     },
 
