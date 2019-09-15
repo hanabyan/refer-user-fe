@@ -10,6 +10,7 @@ const routes = [
       { path: 'reward', component: () => import('pages/Reward/PageReward.vue') },
       { path: 'reward/claim', component: () => import('pages/Reward/PageRewardClaim.vue') },
       { path: 'voucher', component: () => import('pages/Voucher/PageVoucher.vue') },
+      { path: 'profile', component: () => import('pages/User/PageProfile.vue') },
     ],
   },
   {

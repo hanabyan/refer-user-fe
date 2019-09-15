@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import alert from './alert';
 import authentication from './authentication';
 import navigation from './navigation';
+import region from './region';
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default function (/* { ssrContext } */) {
       alert,
       authentication,
       navigation,
+      region,
     },
 
     // enable strict mode (adds overhead!)
