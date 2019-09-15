@@ -1,5 +1,7 @@
 <template>
   <q-page padding>
+    <div class="text-h5 q-mb-md">Penghasilan</div>
+
     <div class="row q-col-gutter-md">
       <div class="col-8">
         <q-table
@@ -8,7 +10,7 @@
           row-key="id"
         >
           <template v-slot:top>
-              <div class="text-h6">Histori Penghasilan</div>
+            <div class="text-h6">Histori Penghasilan</div>
           </template>
 
           <template v-slot:body-cell-amount="props">
