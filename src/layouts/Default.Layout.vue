@@ -24,16 +24,25 @@
           no-caps
         >
           <!-- TODO: change to avatar -->
-          <q-list>
-            <q-item clickable v-close-popup>
+          <q-list separator dense>
+            <q-item clickable v-close-popup to="/profile">
+              <q-item-section avatar>
+                <q-avatar icon="account_circle" />
+              </q-item-section>
               <q-item-section>
                 <q-item-label>
-                  <q-btn
-                    label="Logout"
-                    @click="logout"
-                    flat
-                    class="full-width"
-                  />
+                  Profile
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-close-popup @click="logout">
+              <q-item-section avatar>
+                <q-avatar icon="power_settings_new" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>
+                  Logout
                 </q-item-label>
               </q-item-section>
             </q-item>
