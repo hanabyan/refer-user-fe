@@ -31,8 +31,15 @@ function register(payload) {
     .catch(err => Promise.reject(err.response.data));
 }
 
+function verifyAccount(id, payload) {
+  return axios.put(`/register/verify/${id}`, payload)
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
+}
+
 export const userService = {
   login,
   logout,
   register,
+  verifyAccount,
 };

@@ -79,6 +79,9 @@ import { required } from 'vuelidate/lib/validators';
 
 export default {
   // name: 'PageName',
+  beforeDestroy() {
+    this.clear();
+  },
   data() {
     return {
       phone: '',
@@ -95,6 +98,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('alert', ['clear']),
     ...mapActions('authentication', ['login']),
     ...mapActions('navigation', ['setParamCode']),
     async handleSubmit() {
@@ -116,7 +120,36 @@ export default {
             console.log(res);
           }
         } catch (e) {
-          console.log(e.response);
+          let errMsg;
+
+          if (typeof e === 'string') {
+            errMsg = e;
+          }
+
+          if (typeof e === 'object' && e.message) {
+            errMsg = e.message;
+          }
+
+          if (errMsg.toLowerCase() === 'akun anda belum terverifikasi') {
+            this.clear();
+            let query = '';
+
+            if (this.$route.query.code) {
+              if (query.length === 0) {
+                query = `?code=${this.$route.query.code}`;
+              } else {
+                query = `${query}&code=${this.$route.query.code}`;
+              }
+            }
+
+            if (query.length === 0) {
+              query = `?id=${e.id}`;
+            } else {
+              query = `${query}&id=${e.id}`;
+            }
+            this.$router.push(`/sign/up/verify${query}`);
+          }
+          // console.log(e.response);
         }
       }
     },

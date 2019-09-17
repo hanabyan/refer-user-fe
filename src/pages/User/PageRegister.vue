@@ -25,7 +25,7 @@
           </p>
           <p v-if="alert.type === 'positive'">
             <router-link
-              :to="`/sign/in${$route.params.code ? `/${$route.params.code}` : ''}`"
+              :to="`/sign/in${$route.query.code ? `?code=${$route.query.code}` : ''}`"
             >Masuk sekarang!!!!</router-link>
           </p>
         </div>
@@ -153,7 +153,7 @@
         <div class="col-6">
           Sudah memiliki akun?
           <router-link
-            :to="`/sign/in${$route.params.code ? `/${$route.params.code}` : ''}`"
+            :to="`/sign/in${$route.query.code ? `?code=${$route.query.code}` : ''}`"
           >Masuk sekarang</router-link>
         </div>
         <div class="col-6 text-right">
@@ -287,7 +287,24 @@ export default {
         const result = await userService.register(payload);
 
         if (result) {
-          this.success('Pendaftaran berhasil');
+          // this.success('Pendaftaran berhasil');
+          let query = '';
+
+          if (this.$route.query.code) {
+            if (query.length === 0) {
+              query = `?code=${this.$route.query.code}`;
+            } else {
+              query = `${query}&code=${this.$route.query.code}`;
+            }
+          }
+
+          if (query.length === 0) {
+            query = `?id=${result}`;
+          } else {
+            query = `${query}&id=${result}`;
+          }
+
+          this.$router.push(`/sign/up/verify${query}`);
         }
       } catch (e) {
         let msg = 'Pendaftaran gagal';

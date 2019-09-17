@@ -20,12 +20,18 @@
           :numberOfInput="6"
         />
       </p>
+      <p
+        v-if="alert.message && alert.type == 'negative'"
+        class="text-negative"
+      >{{ alert.message }}
+      </p>
       <p>
         <q-btn
           class="refer-input"
           label="Verifikasi"
           unrelevated
           no-caps
+          @click="doVerify"
         />
       </p>
       <p>&nbsp;</p>
@@ -36,10 +42,16 @@
 
 <script>
 // import OTPInput from 'vue-otp-input';
+import { mapActions } from 'vuex';
+import { userService } from '../../_services';
+
 import OTPInput from '../../components/OTPInput';
 
 export default {
   name: 'PageRegisterVerification',
+  beforeDestroy() {
+    this.clear();
+  },
   components: {
     OTPInput,
   },
@@ -52,9 +64,29 @@ export default {
     };
   },
   methods: {
+    ...mapActions('alert', ['error', 'clear']),
     onChangeOTP(otp) {
+      this.clear();
       console.log(otp);
       this.otp = otp;
+    },
+    async doVerify() {
+      try {
+        const res = await userService.verifyAccount(this.$route.query.id, { code: this.otp });
+        console.log(res);
+        let query = '';
+        if (this.$route.query.code) {
+          query = `?code=${this.$route.query.code}`;
+        }
+        this.$router.push(`/sign/up/success${query}`);
+      } catch (e) {
+        this.error(e);
+      }
+    },
+  },
+  computed: {
+    alert() {
+      return this.$store.state.alert;
     },
   },
 };

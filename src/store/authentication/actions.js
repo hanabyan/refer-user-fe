@@ -3,7 +3,7 @@ import { userService } from '../../_services';
 export function login({ dispatch, commit }, { phone, password }) {
   commit('loginRequest', { phone });
 
-  userService.login(phone, password)
+  return userService.login(phone, password)
     .then(
       (user) => {
         commit('loginSuccess', user);
@@ -11,8 +11,19 @@ export function login({ dispatch, commit }, { phone, password }) {
         this.$router.push('/');
       },
       (error) => {
+        let errMsg;
+
+        if (typeof error === 'string') {
+          errMsg = error;
+        }
+
+        if (typeof error === 'object' && error.message) {
+          errMsg = error.message;
+        }
+
         commit('loginPurge');
-        dispatch('alert/error', error, { root: true });
+        dispatch('alert/error', errMsg, { root: true });
+        return Promise.reject(error);
       },
     );
 }

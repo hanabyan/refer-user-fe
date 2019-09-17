@@ -32,6 +32,7 @@
               label="Mulai"
               unrelevated
               no-caps
+              :to="`/sign/in${$route.query.code ? `?code=${$route.query.code}` : ''}`"
             />
           </router-link>
         </p>
