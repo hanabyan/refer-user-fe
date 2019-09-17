@@ -1,5 +1,6 @@
 <template>
   <q-page padding>
+    <div class="text-h5">Produk</div>
     <q-table
       :data="promos"
       :columns="columns"
@@ -22,7 +23,9 @@
               <p class="r-card-est-value">
                 {{ convertToCurrency(props.row.estimated_price) }}
               </p>
-              <p><i>Komisi</i>: {{ convertToCurrency(props.row.referral_commission) }}</p>
+              <p style="margin: 0;">
+                <i>Komisi</i>: {{ convertToCurrency(props.row.referral_commission) }}
+              </p>
             </q-card-section>
 
             <q-separator />
@@ -35,6 +38,7 @@
                 :description="props.row.promo_description"
                 hashtags="refer"
                 inline-template
+                @open="open(props.row.id)"
               >
                 <div class="socmed-inline-container">
                   <network network="facebook">
@@ -111,6 +115,9 @@ export default {
   methods: {
     convertToCurrency(value) {
       return numberHelper.getCurrency({ value, thousandSeparator: '.' });
+    },
+    open(id) {
+      promoService.incrShareCount(id);
     },
   },
 };

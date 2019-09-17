@@ -24,9 +24,16 @@ function uploadStruk(payload) {
     .catch(err => Promise.reject(err));
 }
 
+function incrShareCount(id) {
+  return axios.put(`/product/${id}`)
+    .then(res => res.data)
+    .catch(err => Promise.reject(err));
+}
+
 export const promoService = {
   getProduct,
   getShareUrl,
   getLanding,
   uploadStruk,
+  incrShareCount,
 };
