@@ -1,5 +1,6 @@
 <template>
   <q-page padding>
+    <div class="text-h5">My Reward</div>
     <q-table
       :data="promos"
       :columns="columns"
@@ -22,74 +23,84 @@
               <p class="r-card-est-value">
                 {{ convertToCurrency(props.row.estimated_price) }}
               </p>
-              <!--
-                <p><i>Komisi</i>: {{ convertToCurrency(props.row.referral_commission) }}</p>
-              -->
             </q-card-section>
 
             <q-separator />
+            <q-card-section class="text-center">
+              <q-btn
+                v-if="props.row.status == 0"
+                class="refer-input q-px-md"
+                label="Upload struk"
+                no-caps
+                style="width: 110px;"
+                @click="openModal(props.row.id)"
+              />
 
-            <q-card-section>
-              <p style="margin-bottom: 7px;">
-                Bagikan ke 10 orang dan dapatkan keuntungannya!
-              </p>
+              <q-btn
+                v-if="props.row.status == 1"
+                label="Approved"
+                no-caps
+                style="width: 110px;"
+                class="bg-positive"
+                color="#fff"
+                disable
+              />
 
-              <div class="q-mb-md">Share status: <b>7 of 10</b></div>
-
-              <social-sharing
-                :url="props.row.share_url"
-                :title="props.row.promo_name"
-                :description="props.row.promo_description"
-                hashtags="refer"
-                inline-template
+              <q-btn
+                v-if="props.row.status == 2"
+                class="refer-input q-px-md"
+                label="Upload struk"
+                no-caps
+                style="width: 130px;"
+                @click="openModal(props.row.id)"
               >
-                <div class="socmed-inline-container">
-                  <network network="facebook">
-                    <q-icon name="fab fa-facebook" class="refer-socmed" />
-                  </network>
-                  <network network="whatsapp">
-                    <q-icon name="fab fa-whatsapp" class="refer-socmed" />
-                  </network>
-                  <network network="twitter">
-                    <q-icon name="fab fa-twitter" class="refer-socmed" />
-                  </network>
-                </div>
-              </social-sharing>
+                <q-icon name="message" class="q-ml-sm" />
+              </q-btn>
+
+              <q-btn
+                v-if="props.row.status == 4"
+                label="On progress"
+                no-caps
+                style="width: 110px;"
+                class="bg-yellow"
+                disable
+              >
+              </q-btn>
             </q-card-section>
           </q-card>
         </div>
       </template>
     </q-table>
+
+    <UploadReceipt
+      v-if="isUploadStrukOpen"
+      :isOpen="isUploadStrukOpen"
+      :formDataObj="{...form}"
+      @toggle="toggleModal"
+      @refetch="fetch"
+    />
   </q-page>
 </template>
 
 <script>
-/**
- * TODO: belum pasti row-key
- */
-import Vue from 'vue';
-import SocialSharing from 'vue-social-sharing';
-
-import { promoService } from '../../_services';
+import { rewardService } from '../../_services';
 import numberHelper from '../../_helper/number.helper';
-
-Vue.use(SocialSharing);
+import UploadReceipt from './components/UploadReceipt';
 
 export default {
-  // name: 'PageName',
   components: {
-    SocialSharing,
+    UploadReceipt,
   },
   beforeMount() {
-    promoService.getProduct().then((res) => {
-      this.promos = res;
-    }, (rej) => {
-      console.log(rej);
-    });
+    this.fetch();
   },
   data() {
     return {
+      isUploadStrukOpen: false,
       promos: [],
+      form: {
+        promoUserId: '',
+      },
       columns: [
         {
           name: 'name',
@@ -118,6 +129,20 @@ export default {
   methods: {
     convertToCurrency(value) {
       return numberHelper.getCurrency({ value, thousandSeparator: '.' });
+    },
+    fetch() {
+      rewardService.get().then((res) => {
+        this.promos = res;
+      }, (rej) => {
+        console.log(rej);
+      });
+    },
+    toggleModal() {
+      this.isUploadStrukOpen = !this.isUploadStrukOpen;
+    },
+    openModal(promoUserId) {
+      this.form = { promoUserId };
+      this.toggleModal();
     },
   },
 };

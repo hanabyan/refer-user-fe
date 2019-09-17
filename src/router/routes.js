@@ -8,7 +8,7 @@ const routes = [
       { path: 'product', component: () => import('pages/Product/PageProduct.vue') },
       { path: 'income', component: () => import('pages/Income/PageIncome.vue') },
       { path: 'reward', component: () => import('pages/Reward/PageReward.vue') },
-      { path: 'reward/claim', component: () => import('pages/Reward/PageRewardClaim.vue') },
+      // { path: 'reward/claim', component: () => import('pages/Reward/PageRewardClaim.vue') },
       { path: 'voucher', component: () => import('pages/Voucher/PageVoucher.vue') },
       { path: 'profile', component: () => import('pages/User/PageProfile.vue') },
     ],
@@ -28,6 +28,13 @@ const routes = [
     component: () => import('layouts/User.Layout.vue'),
     children: [
       { path: ':code', component: () => import('pages/Public/PageC.vue') },
+    ],
+  },
+  {
+    path: '/reward/claim',
+    component: () => import('layouts/User.Layout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Reward/PageUploadReceipt.vue') },
     ],
   },
 ];
