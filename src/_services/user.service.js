@@ -31,6 +31,17 @@ function register(payload) {
     .catch(err => Promise.reject(err.response.data));
 }
 
+function claim(redeemCode) {
+  return axios('/claim', {
+    method: 'post',
+    code: redeemCode,
+  })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch(err => Promise.reject(err.response.data));
+}
+
 function verifyAccount(id, payload) {
   return axios.put(`/register/verify/${id}`, payload)
     .then(response => response.data)
@@ -41,5 +52,6 @@ export const userService = {
   login,
   logout,
   register,
+  claim,
   verifyAccount,
 };
