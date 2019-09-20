@@ -2,7 +2,7 @@
 import { regionService } from '../../_services';
 
 export function actFetchProvince({ commit }) {
-  regionService.getProvinces()
+  return regionService.getProvinces()
     .then(
       (provinces) => {
         commit('setProvinces', provinces);
@@ -12,7 +12,7 @@ export function actFetchProvince({ commit }) {
 }
 
 export function actFetchCity({ commit }, provinceId = null) {
-  regionService.getCities(provinceId)
+  return regionService.getCities(provinceId)
     .then(
       (cities) => {
         commit('setCities', cities);
