@@ -28,7 +28,11 @@
             label="Jumlah Penarikan"
             :dense="false"
             hint="Hanya gunakan angka"
+            :error="isSubmitted && $v.jumlahTarikDana.$error"
           >
+            <template v-slot:error>
+              <p v-if="!$v.jumlahTarikDana.required">Masukkan jumlah dana yang akan ditarik</p>
+            </template>
           </q-input>
         </div>
       </q-card-section>
@@ -59,6 +63,7 @@
 <script>
 // TODO: perlu ditambahkan konfirmasi rekening bank?
 // TODO: perlu ditambahkan force untuk update profile
+import { mapActions } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
 
 export default {
@@ -77,6 +82,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('navigation', ['toggleProfile']),
     toggleModal() {
       this.$emit('toggle');
     },
@@ -88,8 +94,32 @@ export default {
       this.isSubmitted = true;
       this.$v.$touch();
 
+      /* break if validation error */
       if (this.$v.$error) {
         this.isSubmitting = false;
+        return;
+      }
+
+      /* break if profile not completed */
+      if (parseInt(this.isProfileCompleted, 10) < 1) {
+        this.isSubmitting = false;
+
+        this.$q.dialog({
+          title: 'Konfirmasi',
+          message: 'Untuk melakukan penarikan dana, anda harus melengkapi data diri terlebih dahulu. Tekan ya untuk melanjutkan !',
+          cancel: {
+            label: 'Batal',
+            flat: true,
+          },
+          ok: {
+            label: 'Ya',
+            flat: true,
+          },
+          persistent: true,
+        }).onOk(() => {
+          this.toggleProfile();
+        });
+
         return;
       }
 
@@ -120,6 +150,11 @@ export default {
       //     }
       //   }
       // } else if (this.actionType === 'edit') {
+    },
+  },
+  computed: {
+    isProfileCompleted() {
+      return this.$store.state.authentication.user.is_profile_completed;
     },
   },
 };
