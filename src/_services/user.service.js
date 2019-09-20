@@ -48,10 +48,49 @@ function verifyAccount(id, payload) {
     .catch(err => Promise.reject(err.response.data));
 }
 
+function updateStateUser(payload) {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (payload) {
+    if (payload.name) {
+      user.name = payload.name;
+    }
+
+    if (payload.phone) {
+      user.phone = payload.phone;
+    }
+
+    if (payload.is_profile_completed) {
+      user.is_profile_completed = payload.is_profile_completed;
+    }
+  }
+
+  localStorage.setItem('user', JSON.stringify(user));
+  return user;
+}
+
+function getProfile() {
+  return axios('/profile')
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
+}
+
+function updateProfile(payload) {
+  return axios('/profile', {
+    method: 'put',
+    data: payload,
+  })
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
+}
+
 export const userService = {
   login,
   logout,
   register,
   claim,
   verifyAccount,
+  updateStateUser,
+  getProfile,
+  updateProfile,
 };

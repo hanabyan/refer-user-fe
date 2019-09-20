@@ -12,3 +12,7 @@ export function loginPurge(state) {
   state.status = {};
   state.user = null;
 }
+
+export function updateStateUser(state, user) {
+  state.user = user;
+}

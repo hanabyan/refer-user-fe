@@ -25,7 +25,8 @@
         >
           <!-- TODO: change to avatar -->
           <q-list separator dense>
-            <q-item clickable v-close-popup to="/profile">
+            <!-- <q-item clickable v-close-popup to="/profile"> -->
+            <q-item clickable v-close-popup @click="toggleProfile">
               <q-item-section avatar>
                 <q-avatar icon="account_circle" />
               </q-item-section>
@@ -104,6 +105,11 @@
       </q-layout>
     </q-drawer>
 
+    <ProfilePopup
+      v-if="isShowProfile"
+      :isOpen="isShowProfile"
+    />
+
     <q-footer style="background-color: #fff; color: #a4a4a4; border-top: 1px solid #eee;">
       <q-toolbar>
         &copy; 2019 Refer. All rights reserved.
@@ -122,8 +128,13 @@
 import { openURL } from 'quasar';
 import { mapActions } from 'vuex';
 
+import ProfilePopup from '../components/ProfilePopup';
+
 export default {
   name: 'DefaultLayout',
+  components: {
+    ProfilePopup,
+  },
   data() {
     return {
       leftDrawerOpen: false,
@@ -159,10 +170,14 @@ export default {
   methods: {
     openURL,
     ...mapActions('authentication', ['logout']),
+    ...mapActions('navigation', ['toggleProfile']),
   },
   computed: {
     profile() {
       return this.$store.state.authentication.user;
+    },
+    isShowProfile() {
+      return this.$store.state.navigation.isShowProfile;
     },
   },
 };

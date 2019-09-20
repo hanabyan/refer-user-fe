@@ -33,3 +33,9 @@ export function logout({ commit }) {
   commit('loginPurge');
   this.$router.push('/sign/in');
 }
+
+export function updateStateUser({ commit }, payload) {
+  const updatedUser = userService.updateStateUser(payload);
+
+  commit('updateStateUser', updatedUser);
+}
