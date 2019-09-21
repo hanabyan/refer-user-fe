@@ -30,12 +30,12 @@
           </p>
         </div>
 
-        <div class="col-12 q-pb-md">
-          <q-item-label>Nama</q-item-label>
+        <div class="col-12">
+          <q-item-label class="q-mb-xs">Nama</q-item-label>
           <q-input
             outlined
             square
-            class="refer-input"
+            class="refer-input q-pb-md"
             v-model="$v.name.$model"
             placeholder="nama *"
             lazy-rules
@@ -48,13 +48,13 @@
           </q-input>
         </div>
 
-        <div class="col-12 q-pb-md">
-          <q-item-label>Nomor Seluler</q-item-label>
+        <div class="col-12">
+          <q-item-label class="q-mb-xs">Nomor Seluler</q-item-label>
           <q-input
             outlined
             square
             type="tel"
-            class="refer-input"
+            class="refer-input q-pb-md"
             v-model="$v.mobile.$model"
             placeholder="nomor selular *"
             lazy-rules
@@ -67,13 +67,13 @@
           </q-input>
         </div>
 
-        <div class="col-12 q-pb-md">
-          <q-item-label>Password</q-item-label>
+        <div class="col-12">
+          <q-item-label class="q-mb-xs">Password</q-item-label>
           <q-input
             outlined
             square
             type="password"
-            class="refer-input"
+            class="refer-input q-pb-md"
             v-model="$v.password.$model"
             placeholder="password *"
             lazy-rules
@@ -86,13 +86,13 @@
           </q-input>
         </div>
 
-        <div class="col-12 q-pb-md">
-          <q-item-label>Confirm Password</q-item-label>
+        <div class="col-12">
+          <q-item-label class="q-mb-xs">Confirm Password</q-item-label>
           <q-input
             outlined
             square
             type="password"
-            class="refer-input"
+            class="refer-input q-pb-md"
             v-model="$v.password_confirm.$model"
             placeholder="confirm password *"
             lazy-rules
@@ -106,14 +106,14 @@
           </q-input>
         </div>
 
-        <div class="col-12 q-pb-md">
-          <q-item-label>Tanggal Lahir</q-item-label>
+        <div class="col-12">
+          <q-item-label class="q-mb-xs">Tanggal Lahir</q-item-label>
           <div class="row q-gutter-xs">
             <div class="col-3">
               <q-select
                 outlined
                 square
-                class="refer-input"
+                class="refer-input q-pb-md"
                 v-model="day"
                 :options="dayOptions"
                 placeholder="DD *"
@@ -125,7 +125,7 @@
               <q-select
                 outlined
                 square
-                class="refer-input"
+                class="refer-input q-pb-md"
                 v-model="month"
                 :options="monthOptions"
                 placeholder="MM *"
@@ -137,7 +137,7 @@
               <q-select
                 outlined
                 square
-                class="refer-input"
+                class="refer-input q-pb-md"
                 v-model="year"
                 :options="yearOptions"
                 placeholder="YYYY *"
