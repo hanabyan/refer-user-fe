@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 function getProduct() {
-  return axios('/product/promo')
+  return axios('/product')
     .then(res => res.data)
     .catch(err => Promise.reject(err));
 }
