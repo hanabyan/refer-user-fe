@@ -21,6 +21,14 @@
       <q-separator />
 
       <q-card-section class="col scroll">
+        <!-- notification -->
+        <div v-if="alert.message">
+          <q-banner :class="`text-white ${alert.type === 'negative' ? 'bg-red' : 'bg-green'}`">
+            {{ alert.message }}
+          </q-banner>
+        </div>
+        <!-- end notification -->
+
         <div class="q-mb-md">
           <q-input
             type="number"
@@ -61,14 +69,17 @@
 </template>
 
 <script>
-// TODO: perlu ditambahkan konfirmasi rekening bank?
-// TODO: perlu ditambahkan force untuk update profile
 import { mapActions } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
+
+import { userService } from '../../_services';
 
 export default {
   // name: 'ComponentName',
   props: ['isOpen', 'toggle'],
+  beforeDestroy() {
+    this.clear();
+  },
   data() {
     return {
       isSubmitting: false,
@@ -83,6 +94,7 @@ export default {
   },
   methods: {
     ...mapActions('navigation', ['toggleProfile']),
+    ...mapActions('alert', ['success', 'error', 'clear']),
     toggleModal() {
       this.$emit('toggle');
     },
@@ -123,38 +135,34 @@ export default {
         return;
       }
 
-      console.log('ok lah');
+      try {
+        const { jumlahTarikDana } = this;
 
-      // if (this.actionType === 'create') {
-      //   try {
-      //     const created = await promoService.create(payload);
-      //     if (created) {
-      //       this.$emit('refetch');
-      //       this.toggleModal();
-      //     }
-      //   } catch (e) {
-      //     if (e.response.status >= 400) {
-      //       let errMsg = 'Unknown error';
-      //       const { data } = e.response;
+        const withdrawal = await userService.withdraw({ user_req_nominal: jumlahTarikDana });
 
-      //       if (data && typeof data === 'string') {
-      //         errMsg = data;
-      //       }
+        if (withdrawal) {
+          // TODO: should do refetch
+          this.toggleModal();
+          this.$q.notify({ color: 'positive', message: 'Berhasil melakukan permintaan withdrawal', position: 'top-right' });
+        }
+      } catch (e) {
+        this.isSubmitting = false;
+        let errMsg = 'Gagal melakukan permintaan penarikan';
 
-      //       if (data && data.message && typeof data.message === 'string') {
-      //         errMsg = data.message;
-      //       }
+        if (typeof e === 'string') {
+          errMsg = e;
+        }
 
-      //       this.isSubmitting = false;
-      //       this.$q.notify({ color: 'negative', message: errMsg, position: 'top-right' });
-      //     }
-      //   }
-      // } else if (this.actionType === 'edit') {
+        this.error(errMsg);
+      }
     },
   },
   computed: {
     isProfileCompleted() {
       return this.$store.state.authentication.user.is_profile_completed;
+    },
+    alert() {
+      return this.$store.state.alert;
     },
   },
 };

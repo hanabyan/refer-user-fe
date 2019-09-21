@@ -83,7 +83,7 @@
               <q-icon name="fas fa-credit-card" />
             </q-item-section>
             <q-item-section>
-              <span class="text-h6">Rp 559,000</span>
+              <span class="text-h6">{{ convertToCurrency(getBalance) }}</span>
             </q-item-section>
           </div>
 
@@ -129,11 +129,15 @@ import { openURL } from 'quasar';
 import { mapActions } from 'vuex';
 
 import ProfilePopup from '../components/ProfilePopup';
+import numberHelper from '../_helper/number.helper';
 
 export default {
   name: 'DefaultLayout',
   components: {
     ProfilePopup,
+  },
+  beforeMount() {
+    this.fetchSummaryBalance();
   },
   data() {
     return {
@@ -169,8 +173,11 @@ export default {
   },
   methods: {
     openURL,
-    ...mapActions('authentication', ['logout']),
+    ...mapActions('authentication', ['logout', 'fetchSummaryBalance']),
     ...mapActions('navigation', ['toggleProfile']),
+    convertToCurrency(value) {
+      return numberHelper.getCurrency({ value });
+    },
   },
   computed: {
     profile() {
@@ -178,6 +185,10 @@ export default {
     },
     isShowProfile() {
       return this.$store.state.navigation.isShowProfile;
+    },
+    getBalance() {
+      const { IN, OUT } = this.$store.state.authentication.summaryBalance;
+      return parseFloat(IN) - parseFloat(OUT);
     },
   },
 };

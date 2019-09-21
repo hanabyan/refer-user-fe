@@ -16,3 +16,7 @@ export function loginPurge(state) {
 export function updateStateUser(state, user) {
   state.user = user;
 }
+
+export function updateSummaryBalance(state, summary) {
+  state.summaryBalance = summary;
+}

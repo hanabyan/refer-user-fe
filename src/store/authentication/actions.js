@@ -39,3 +39,12 @@ export function updateStateUser({ commit }, payload) {
 
   commit('updateStateUser', updatedUser);
 }
+
+export function fetchSummaryBalance({ commit }) {
+  return userService.getIncomeSummary()
+    .then((summary) => {
+      commit('updateSummaryBalance', summary);
+    }, (err) => {
+      console.log(err);
+    });
+}

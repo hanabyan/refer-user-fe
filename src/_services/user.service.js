@@ -84,6 +84,27 @@ function updateProfile(payload) {
     .catch(err => Promise.reject(err.response.data));
 }
 
+function getIncomeList() {
+  return axios('/withdraw')
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
+}
+
+function withdraw(payload) {
+  return axios('/withdraw', {
+    method: 'post',
+    data: payload,
+  })
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
+}
+
+function getIncomeSummary() {
+  return axios('/withdraw/summary')
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
+}
+
 export const userService = {
   login,
   logout,
@@ -93,4 +114,7 @@ export const userService = {
   updateStateUser,
   getProfile,
   updateProfile,
+  getIncomeList,
+  withdraw,
+  getIncomeSummary,
 };

@@ -25,7 +25,7 @@
               <span
                 :class="props.row.type === 'db' ? 'text-negative' : ''"
               >
-                {{props.row.amount}}
+                {{ convertToCurrency(props.row.amount) }}
               </span>
             </q-td>
           </template>
@@ -41,7 +41,9 @@
 
             <q-item-section>
               <q-item-label caption style="font-size: 14px;">Saldo Komisi</q-item-label>
-              <q-item-label class="text-h5"><b>Rp 559,000</b></q-item-label>
+              <q-item-label class="text-h5">
+                <b>{{ convertToCurrency(getBalance) }}</b>
+              </q-item-label>
             </q-item-section>
           </q-item>
 
@@ -67,30 +69,29 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import FormModal from './FormModal';
+
+import { userService } from '../../_services';
+import numberHelper from '../../_helper/number.helper';
 
 export default {
   // name: 'PageName',
   components: {
     FormModal,
   },
+  beforeMount() {
+    this.fetchSummaryBalance();
+    userService.getIncomeList().then((res) => {
+      this.incomes = res;
+    }, (rej) => {
+      console.log(rej);
+    });
+  },
   data() {
     return {
       isOpenModal: false,
-      incomes: [
-        {
-          date: '07 Sep 2019',
-          description: 'Komisi penjualan: XAOFLK',
-          amount: '669,000',
-          type: 'cr',
-        },
-        {
-          date: '10 Sep 2019',
-          description: 'Tarik dana',
-          amount: '100,000',
-          type: 'db',
-        },
-      ],
+      incomes: [],
       columns: [
         {
           name: 'date',
@@ -117,8 +118,18 @@ export default {
     };
   },
   methods: {
+    ...mapActions('authentication', ['fetchSummaryBalance']),
     toggleModal() {
       this.isOpenModal = !this.isOpenModal;
+    },
+    convertToCurrency(value) {
+      return numberHelper.getCurrency({ value });
+    },
+  },
+  computed: {
+    getBalance() {
+      const { IN, OUT } = this.$store.state.authentication.summaryBalance;
+      return parseFloat(IN) - parseFloat(OUT);
     },
   },
 };
