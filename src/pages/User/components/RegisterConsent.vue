@@ -16,7 +16,7 @@
         round
         @click="onCloseDialog"
       />
-      <q-card-section class="q-mt-xl">
+      <q-card-section class="q-mt-xl col scroll">
         <h4 class="text-center q-mt-xs">Terms & Conditions</h4>
 
         <h5 class="q-mb-md">Referral Incentive Rewards</h5>
@@ -30,6 +30,16 @@
         Pengiriman produk melalui kurir JNE. Anda tidak dapat memilih servis kurir JNE, kami yang akan menentukan servis kurir JNE nya. <br/><br/>
         Refer.co.id saat ini beroperasi hanya mencakup daerah Jabodetabek saja yaitu Jakarta, Bogor, Depok, Tangerang, Bekasi, Puncak, Cianjur.</p>
       </q-card-section>
+
+      <q-separator />
+
+      <q-card-actions align="right">
+        <q-btn
+          label="Tutup"
+          @click="onCloseDialog"
+          class="refer-input q-mr-lg"
+        />
+      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>

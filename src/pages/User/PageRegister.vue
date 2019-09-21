@@ -157,7 +157,6 @@
             color="grey-9"
           >
             <template v-slot="props">
-              {{$log(props)}}
               <q-item-label>
                 Saya setuju untuk mengikuti
                 {{' '}}
