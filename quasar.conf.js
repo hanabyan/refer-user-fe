@@ -70,6 +70,7 @@ module.exports = function (ctx) {
         'QStepper',
         'QStep',
         'QStepperNavigation',
+        'QCheckbox',
       ],
 
       directives: [

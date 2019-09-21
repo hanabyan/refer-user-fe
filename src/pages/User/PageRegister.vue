@@ -35,7 +35,7 @@
           <q-input
             outlined
             square
-            class="refer-input q-pb-md"
+            class="refer-input q-pb-lg"
             v-model="$v.name.$model"
             placeholder="nama *"
             lazy-rules
@@ -54,7 +54,7 @@
             outlined
             square
             type="tel"
-            class="refer-input q-pb-md"
+            class="refer-input q-pb-lg"
             v-model="$v.mobile.$model"
             placeholder="nomor selular *"
             lazy-rules
@@ -73,7 +73,7 @@
             outlined
             square
             type="password"
-            class="refer-input q-pb-md"
+            class="refer-input q-pb-lg"
             v-model="$v.password.$model"
             placeholder="password *"
             lazy-rules
@@ -92,7 +92,7 @@
             outlined
             square
             type="password"
-            class="refer-input q-pb-md"
+            class="refer-input q-pb-lg"
             v-model="$v.password_confirm.$model"
             placeholder="confirm password *"
             lazy-rules
@@ -149,6 +149,31 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col">
+          <q-checkbox
+            v-model="$v.consent.$model"
+            class="refer-input"
+            color="grey-9"
+          >
+            <template v-slot="props">
+              {{$log(props)}}
+              <q-item-label>
+                Saya setuju untuk mengikuti
+                {{' '}}
+                <a
+                  href="javascript:void(0)"
+                  @click.prevent.stop="onConsentClick"
+                >syarat dan ketentuan</a> yang berlaku
+              </q-item-label>
+            </template>
+          </q-checkbox>
+          <p v-if="isSubmitted && !$v.consent.sameAs" class="text-negative">
+            Centang jika setuju pada syarat dan ketentuan yang berlaku
+          </p>
+        </div>
+      </div>
+
       <div class="row q-mt-md">
         <div class="col-6">
           Sudah memiliki akun?
@@ -169,6 +194,11 @@
       </q-form>
 
     </div>
+    <RegisterConsent
+      v-if="isShowModal"
+      :isOpen="isShowModal"
+      @toggle="toggleModal"
+    />
   </q-layout>
 </template>
 
@@ -178,9 +208,13 @@ import {
 } from 'vuelidate/lib/validators';
 import { mapActions } from 'vuex';
 import { userService } from '../../_services';
+import RegisterConsent from './components/RegisterConsent';
 
 export default {
   // name: 'PageName',
+  components: {
+    RegisterConsent,
+  },
   beforeMount() {
     const now = new Date();
 
@@ -205,6 +239,7 @@ export default {
   },
   data() {
     return {
+      isShowModal: false,
       name: '',
       mobile: '',
       password: '',
@@ -214,6 +249,7 @@ export default {
       year: '',
       isSubmitted: false,
       code: '',
+      consent: false,
     };
   },
   validations: {
@@ -229,6 +265,9 @@ export default {
     password_confirm: {
       required,
       sameAsPassword: sameAs('password'),
+    },
+    consent: {
+      sameAs: sameAs(() => true),
     },
   },
   computed: {
@@ -266,6 +305,12 @@ export default {
   },
   methods: {
     ...mapActions('alert', ['success', 'error', 'clear']),
+    toggleModal() {
+      this.isShowModal = !this.isShowModal;
+    },
+    onConsentClick() {
+      this.toggleModal();
+    },
     async handleSubmit() {
       this.isSubmitted = true;
       this.$v.$touch();
@@ -333,4 +378,7 @@ export default {
 </script>
 
 <style>
+/* .refer-input .q-checkbox__inner--active svg {
+  color: #4a4a4a;
+} */
 </style>
