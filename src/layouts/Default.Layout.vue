@@ -83,7 +83,7 @@
               <q-icon name="fas fa-credit-card" />
             </q-item-section>
             <q-item-section>
-              <span class="text-h6">{{ convertToCurrency(getBalance) }}</span>
+              <span class="text-h6">{{ convertToCurrency(getBalance | 0) }}</span>
             </q-item-section>
           </div>
 

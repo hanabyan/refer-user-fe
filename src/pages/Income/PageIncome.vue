@@ -42,7 +42,7 @@
             <q-item-section>
               <q-item-label caption style="font-size: 14px;">Saldo Komisi</q-item-label>
               <q-item-label class="text-h5">
-                <b>{{ convertToCurrency(getBalance) }}</b>
+                <b>{{ convertToCurrency(getBalance || 0) }}</b>
               </q-item-label>
             </q-item-section>
           </q-item>
