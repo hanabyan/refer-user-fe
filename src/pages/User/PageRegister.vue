@@ -188,6 +188,7 @@
             label="Daftar"
             unrelevated
             no-caps
+            :disable="isSubmitting"
           />
         </div>
       </div>
@@ -247,6 +248,7 @@ export default {
       day: '',
       month: '',
       year: '',
+      isSubmitting: false,
       isSubmitted: false,
       code: '',
       consent: false,
@@ -313,8 +315,10 @@ export default {
     },
     async handleSubmit() {
       this.isSubmitted = true;
+      this.isSubmitting = true;
       this.$v.$touch();
       if (this.$v.$error) {
+        this.isSubmitting = false;
         return;
       }
 
@@ -352,6 +356,7 @@ export default {
           this.$router.push(`/sign/up/verify${query}`);
         }
       } catch (e) {
+        this.isSubmitting = false;
         let msg = 'Pendaftaran gagal';
 
         if (e && typeof e === 'string') {
