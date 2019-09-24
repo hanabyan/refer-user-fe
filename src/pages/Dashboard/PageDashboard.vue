@@ -82,7 +82,7 @@
 
         <q-card class="my-card">
           <q-card-section class="text-white" style="background-color: #0100CA;">
-            <q-item>
+            <q-item class="q-px-none">
               <q-item-section avatar>
                 <!-- <q-avatar>
                   <img :src="'/image'">
