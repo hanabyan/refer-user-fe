@@ -7,6 +7,7 @@
       row-key="id"
       grid
       class="table-product-card"
+      :pagination.sync="pagination"
     >
       <template v-slot:item="props">
         <div
@@ -96,6 +97,9 @@ export default {
   },
   data() {
     return {
+      pagination: {
+        rowsPerPage: 12,
+      },
       isUploadStrukOpen: false,
       promos: [],
       form: {
