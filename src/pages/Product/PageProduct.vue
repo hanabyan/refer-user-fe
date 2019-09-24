@@ -7,6 +7,7 @@
       row-key="id"
       grid
       class="table-product-card"
+      :pagination.sync="pagination"
     >
       <template v-slot:item="props">
         <div
@@ -31,7 +32,11 @@
             <q-separator />
 
             <q-card-section>
-              <p style="margin-bottom: 7px;">Bagikan dan dapatkan komisi!</p>
+              <p style="margin-bottom: 7px;">
+                Bagikan dan dapatkan komisi!
+                <br />
+                Share {{ props.row.shared_count }} of {{ props.row.referral_share_count }}
+              </p>
               <social-sharing
                 :url="props.row.share_url"
                 :title="props.row.promo_name"
@@ -39,6 +44,7 @@
                 hashtags="refer"
                 inline-template
                 @open="open(props.row.id)"
+                @close="onClose(props.row.id)"
               >
                 <div class="socmed-inline-container">
                   <network network="facebook">
@@ -86,7 +92,11 @@ export default {
   },
   data() {
     return {
+      pagination: {
+        rowsPerPage: 12,
+      },
       promos: [],
+      justSharedCount: '',
       columns: [
         {
           name: 'name',
@@ -117,7 +127,21 @@ export default {
       return numberHelper.getCurrency({ value, thousandSeparator: '.' });
     },
     open(id) {
-      promoService.incrShareCount(id);
+      promoService.incrShareCount(id).then((res) => {
+        this.justSharedCount = res;
+      },
+      (rej) => {
+        console.log(rej);
+      });
+    },
+    onClose(id) {
+      this.promos.some((item, index) => {
+        if (parseInt(item.id, 10) === parseInt(id, 10)) {
+          this.promos[index].shared_count = this.justSharedCount;
+          return true;
+        }
+        return false;
+      });
     },
   },
 };
