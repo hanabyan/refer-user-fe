@@ -6,6 +6,12 @@ function getProduct() {
     .catch(err => Promise.reject(err));
 }
 
+function getFeaturedProduct() {
+  return axios('/product/featured')
+    .then(res => res.data)
+    .catch(err => Promise.reject(err));
+}
+
 function getShareUrl(promoId, productId) {
   return axios(`/product/share?promo_id=${promoId}&product_id=${productId}`)
     .then(res => res.data)
@@ -32,6 +38,7 @@ function incrShareCount(id) {
 
 export const promoService = {
   getProduct,
+  getFeaturedProduct,
   getShareUrl,
   getLanding,
   uploadStruk,
