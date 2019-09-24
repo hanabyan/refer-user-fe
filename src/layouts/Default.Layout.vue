@@ -6,7 +6,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleMini"
           aria-label="Menu"
         >
           <q-icon name="menu" />
@@ -57,15 +57,28 @@
       show-if-above
       content-class="bg-grey-2"
       :width="230"
+      :mini="mini"
+      @mouseover="miniHeader ? mini = false : true"
+      @mouseout="miniHeader ? mini = true : true"
     >
       <q-layout view="lHh Lpr lFf">
         <q-header>
-          <q-banner inline-actions class="text-white bg-red text-center banner__header">
+          <q-banner
+            inline-actions
+            :class="`text-white banner__header${!miniHeader? ' bg-red text-center' : ' text-left'}`"
+          >
             <template v-slot:action>
               <img
+                v-if="!miniHeader"
                 class="absolute-center banner-img"
                 alt="Refer logo"
                 src="~assets/img/logo.white.lg.png"
+              >
+              <img
+                v-if="miniHeader"
+                class="absolute-center banner-img"
+                alt="Refer logo"
+                src="statics/BEON-REFER_07.png"
               >
             </template>
           </q-banner>
@@ -141,7 +154,9 @@ export default {
   },
   data() {
     return {
-      leftDrawerOpen: false,
+      leftDrawerOpen: true,
+      mini: false,
+      miniHeader: false,
       navs: [
         {
           label: 'Beranda',
@@ -177,6 +192,16 @@ export default {
     ...mapActions('navigation', ['toggleProfile']),
     convertToCurrency(value) {
       return numberHelper.getCurrency({ value });
+    },
+    toggleMini() {
+      const { $q: { screen } } = this;
+
+      if (screen.md || screen.lg || screen.xl) {
+        this.mini = !this.mini;
+        this.miniHeader = !this.miniHeader;
+      } else {
+        this.leftDrawerOpen = !this.leftDrawerOpen;
+      }
     },
   },
   computed: {
