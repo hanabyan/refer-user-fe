@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
 
 import { userService } from '../../_services';
@@ -158,9 +158,7 @@ export default {
     },
   },
   computed: {
-    isProfileCompleted() {
-      return this.$store.state.authentication.user.is_profile_completed;
-    },
+    ...mapGetters('authentication', ['isProfileCompleted']),
     alert() {
       return this.$store.state.alert;
     },

@@ -87,7 +87,13 @@
                 <!-- <q-avatar>
                   <img :src="'/image'">
                 </q-avatar> -->
-                <q-avatar icon="account_circle" />
+                <q-avatar
+                  color="white"
+                  text-color="refer-blue"
+                  size="60px"
+                  font-size="40px"
+                  icon="account_circle"
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ userName }}</q-item-label>
@@ -109,21 +115,29 @@
           <q-separator />
 
           <q-list class="q-pa-md q-list">
-            <q-item tag="label" v-ripple>
+            <q-item tag="label" v-ripple class="q-px-none">
               <q-item-section side top>
-                <q-checkbox v-model="isProfile" disable/>
+                <q-checkbox
+                  color="refer-red"
+                  :value="parseInt(isProfileCompleted, 10) === 1 ? true : false"
+                  disable
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Lengkapi Profil Anda</q-item-label>
-                <q-item-label caption>
+                <q-item-label :class="isProfileCompleted ? ' text-strike' : ''" caption>
                   Untuk memulai, lengkapi data diri anda, klik "Edit Profile"
                 </q-item-label>
               </q-item-section>
             </q-item>
 
-            <q-item tag="label" v-ripple>
+            <q-item tag="label" v-ripple class="q-px-none">
               <q-item-section side top>
-                <q-checkbox v-model="isProduct" disable/>
+                <q-checkbox
+                  v-model="isProduct"
+                  color="refer-red"
+                  disable
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Pilih produk yang akan dibagikan</q-item-label>
@@ -133,9 +147,13 @@
               </q-item-section>
             </q-item>
 
-            <q-item tag="label" v-ripple>
+            <q-item tag="label" v-ripple class="q-px-none">
               <q-item-section side top>
-                <q-checkbox v-model="isPromo" disable/>
+                <q-checkbox
+                  v-model="isPromo"
+                  color="refer-red"
+                  disable
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Pilih promo yang ingin diikuti</q-item-label>
@@ -157,12 +175,20 @@
           <q-card-section>
             <q-item>
               <q-item-section avatar>
-                <q-avatar icon="attach_money" style="color: #f44336;" />
+                <q-avatar
+                  icon="attach_money"
+                  color="refer-red"
+                  text-color="white"
+                  size="60px"
+                  font-size="40px"
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Total Profit</q-item-label>
                 <q-item-label caption lines="1">
-                  {{ convertToCurrency(getProfit | 0) }}
+                  <div class="text-h5 text-bold text-grey-6 q-mb-sm">
+                    {{ convertToCurrency(getProfit | 0) }}
+                  </div>
                 </q-item-label>
               </q-item-section>
 
@@ -174,11 +200,25 @@
           <q-card-section>
             <q-item>
               <q-item-section>
-                {{ `${summaryReward.active}/${summaryReward.total}` }}
-                <br />
+                <div class="text-h5 text-bold text-grey-6 q-mb-sm">
+                  {{ `${summaryReward.active}/${summaryReward.total}` }}
+                </div>
                 Total Reward yang aktif
               </q-item-section>
-              <q-item-section></q-item-section>
+              <q-item-section>
+                <q-circular-progress
+                  show-value
+                  font-size="12px"
+                  :value="summaryReward.percentage"
+                  size="50px"
+                  :thickness="0.22"
+                  color="refer-blue"
+                  track-color="grey-3"
+                  class="q-ma-md"
+                >
+                  {{ summaryReward.percentage }}%
+                </q-circular-progress>
+              </q-item-section>
             </q-item>
           </q-card-section>
         </q-card>
@@ -186,7 +226,11 @@
         <q-card class="my-card q-mt-md">
           <q-card-section>
             <q-item>
-              <q-item-section>{{ totalShare }} <br />Total Share</q-item-section>
+              <q-item-section>
+                <div class="text-h5 text-bold text-grey-6 q-mb-sm">
+                  {{ totalShare }}
+                </div>
+                Total Share</q-item-section>
               <q-item-section></q-item-section>
             </q-item>
           </q-card-section>
@@ -213,7 +257,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import Vue from 'vue';
 import SocialSharing from 'vue-social-sharing';
 
@@ -228,9 +272,13 @@ export default {
     this.fetchSummaryBalance();
     reportService.get().then((res) => {
       const { summary_reward: { active, inactive }, total_share: totalShare } = res;
+      const total = parseInt(active, 10) + parseInt(inactive, 10);
+      const percentage = parseFloat(((parseInt(active, 10) / total) * 100).toFixed(1), 10);
+
       const summaryReward = {
         active,
-        total: parseInt(active, 10) + parseInt(inactive, 10),
+        total,
+        percentage,
       };
 
       this.summaryReward = summaryReward;
@@ -255,12 +303,12 @@ export default {
   data() {
     return {
       featured: [],
-      isProfile: false,
       isProduct: false,
       isPromo: false,
       summaryReward: {
         active: 0,
         total: 0,
+        percentage: 0,
       },
       totalShare: 0,
       linkStats: [
@@ -303,6 +351,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters('authentication', ['isProfileCompleted']),
     paramCode() {
       return this.$store.state.navigation.paramCode;
     },
@@ -322,10 +371,6 @@ export default {
 </script>
 
 <style>
-  .q-avatar .q-avatar__content i {
-    font-size: 50px;
-  }
-
   .r-card-title {
     font-size: 17px;
     font-weight: bold;
