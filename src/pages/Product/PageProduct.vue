@@ -6,8 +6,8 @@
       :columns="columns"
       row-key="id"
       grid
-      class="table-product-card"
       :pagination.sync="pagination"
+      :rowsPerPageOptions="[]"
     >
       <template v-slot:item="props">
         <div
